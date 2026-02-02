@@ -55,3 +55,6 @@ INSERT INTO Categorias (NombreCategoria) VALUES ('Electrónica'), ('Ropa'), ('Ho
 INSERT INTO Productos (Nombre, Descripcion, Precio, Stock, CategoriaID) VALUES 
 ('Smartphone X', 'A powerful smartphone', 699.99, 50, 1),
 ('T-Shirt Blue', 'Comfortable cotton t-shirt', 19.99, 100, 2);
+INSERT INTO Usuarios (NombreUsuario, Contraseña, Nombre, Apellido, Email) VALUES 
+('admin', 'admin123', 'Administrador', 'Sistema', 'admin@tienda.com'),
+('usuario1', 'pass123', 'Juan', 'Pérez', 'juan@email.com');
