@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Categorias (
 CREATE TABLE IF NOT EXISTS Usuarios (
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     NombreUsuario VARCHAR(50) NOT NULL UNIQUE,
-    Contrasena VARCHAR(255) NOT NULL,
+    Contraseña VARCHAR(255) NOT NULL,
     Nombre VARCHAR(100),
     Apellido VARCHAR(100),
     Email VARCHAR(100) UNIQUE,
@@ -48,6 +48,15 @@ CREATE TABLE IF NOT EXISTS DetallePedidos (
     PrecioUnitario DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (PedidoID) REFERENCES Pedidos(PedidoID) ON DELETE CASCADE,
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
+);
+
+-- Table Logs
+CREATE TABLE IF NOT EXISTS Logs (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    TipoLog VARCHAR(50) NOT NULL,
+    Mensaje TEXT NOT NULL,
+    FechaHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Usuario VARCHAR(100)
 );
 
 -- Initial Data

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TiendaDB - Cliente de Prueba del Servicio Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛒 TiendaDB - Cliente de Prueba</h1>
+            <p>Interfaz de prueba para el servicio web ASMX de gestión de tienda online</p>
+        </div>
+
+        <!-- Sección de Autenticación -->
+        <div class="auth-section" id="authSection">
+            <h2>🔐 Autenticación</h2>
+            <div class="form-group">
+                <label for="username">Nombre de Usuario</label>
+                <input type="text" id="username" placeholder="admin" value="admin">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="admin123" value="admin123">
+            </div>
+            <button class="btn btn-primary" onclick="login()">Iniciar Sesión</button>
+            <div id="authResult"></div>
+        </div>
+
+        <!-- Información del Usuario (oculta hasta login) -->
+        <div class="auth-section hidden" id="userInfoSection">
+            <div class="user-info">
+                <div>
+                    <h3 id="welcomeMessage"></h3>
+                    <p id="userEmail"></p>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- Contenido Principal (oculto hasta login) -->
+        <div class="main-content hidden" id="mainContent">
+            <!-- Gestión de Productos -->
+            <div class="card">
+                <h2>📦 Gestión de Productos</h2>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="obtenerProductos()">Listar Productos</button>
+                    <button class="btn btn-success" onclick="mostrarFormularioProducto()">Nuevo Producto</button>
+                </div>
+
+                <div id="formProducto" class="hidden" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Crear Producto</h3>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="prodNombre" placeholder="Nombre del producto">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="prodDescripcion" rows="3" placeholder="Descripción del producto"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="number" id="prodPrecio" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock</label>
+                        <input type="number" id="prodStock" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="prodCategoria">
+                            <option value="1">Electrónica</option>
+                            <option value="2">Ropa</option>
+                            <option value="3">Hogar</option>
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="crearProducto()">Guardar</button>
+                        <button class="btn btn-secondary" onclick="ocultarFormularioProducto()">Cancelar</button>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label>Buscar Producto</label>
+                    <input type="text" id="buscarProducto" placeholder="Buscar por nombre...">
+                    <button class="btn btn-primary" style="margin-top: 0.5rem;"
+                        onclick="buscarProductos()">Buscar</button>
+                </div>
+
+                <div id="productosResult"></div>
+            </div>
+
+            <!-- Gestión de Usuarios -->
+            <div class="card">
+                <h2>👥 Gestión de Usuarios</h2>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="obtenerUsuarios()">Listar Usuarios</button>
+                    <button class="btn btn-success" onclick="mostrarFormularioUsuario()">Nuevo Usuario</button>
+                </div>
+
+                <div id="formUsuario" class="hidden" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Registrar Usuario</h3>
+                    <div class="form-group">
+                        <label>Nombre de Usuario</label>
+                        <input type="text" id="userNombre" placeholder="usuario123">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="userPassword" placeholder="********">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="userNombreReal" placeholder="Juan">
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <input type="text" id="userApellido" placeholder="Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="userEmail" placeholder="juan@email.com">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="registrarUsuario()">Registrar</button>
+                        <button class="btn btn-secondary" onclick="ocultarFormularioUsuario()">Cancelar</button>
+                    </div>
+                </div>
+
+                <div id="usuariosResult"></div>
+            </div>
+
+            <!-- Gestión de Pedidos -->
+            <div class="card">
+                <h2>🛍️ Pedidos</h2>
+                <div class="form-group">
+                    <label>ID de Usuario</label>
+                    <input type="number" id="pedidoUsuarioID" placeholder="1">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="obtenerPedidosUsuario()">Ver Pedidos</button>
+                </div>
+                <div id="pedidosResult"></div>
+            </div>
+
+            <!-- Reportes -->
+            <div class="card">
+                <h2>📊 Reportes de Ventas</h2>
+                <div class="form-group">
+                    <label>Fecha Inicio</label>
+                    <input type="date" id="reporteFechaInicio" value="2024-01-01">
+                </div>
+                <div class="form-group">
+                    <label>Fecha Fin</label>
+                    <input type="date" id="reporteFechaFin" value="2026-12-31">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generarReporteVentas()">Generar Reporte</button>
+                    <button class="btn btn-primary" onclick="obtenerVentasPorCategoria()">Ventas por Categoría</button>
+                </div>
+                <div id="reporteResult"></div>
+            </div>
+
+            <!-- Inventario -->
+            <div class="card">
+                <h2>📋 Gestión de Inventario</h2>
+                <div class="form-group">
+                    <label>ID Producto</label>
+                    <input type="number" id="invProductoID" placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" id="invCantidad" placeholder="10">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Movimiento</label>
+                    <select id="invTipo">
+                        <option value="ENTRADA">Entrada</option>
+                        <option value="SALIDA">Salida</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="gestionarInventario()">Actualizar Inventario</button>
+
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Stock Bajo</h3>
+                    <div class="form-group">
+                        <label>Umbral</label>
+                        <input type="number" id="stockUmbral" placeholder="10" value="10">
+                    </div>
+                    <button class="btn btn-warning" onclick="obtenerStockBajo()">Ver Productos con Stock Bajo</button>
+                </div>
+                <div id="inventarioResult"></div>
+            </div>
+
+            <!-- Logs del Sistema -->
+            <div class="card">
+                <h2>📝 Logs del Sistema</h2>
+                <div class="form-group">
+                    <label>Límite de registros</label>
+                    <input type="number" id="logsLimite" placeholder="50" value="50">
+                </div>
+                <button class="btn btn-primary" onclick="obtenerLogs()">Ver Logs</button>
+                <div id="logsResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
